@@ -8,7 +8,7 @@ class App extends Component {
 			<div className="App">
 				<h1 className="title">Progress Meter</h1>
 				<Meter
-					size={'250'}
+					size={'300'}
 					color={'red'}
 					progress={50}
 					completeMsg={'Loading is complete'}
