@@ -7,7 +7,8 @@ class Meter extends Component {
 
 	render() {
 		const {color, size, progress} = this.props;
-		const fillHeight = size * (progress * 0.01);
+		const inverseFillHeight = (100 - progress) * 0.01 * size;
+		console.log('inverse fill height: ' + inverseFillHeight);
 
 		const circleStyle = {
 			position: 'relative',
@@ -16,28 +17,14 @@ class Meter extends Component {
 			width: `${size}px`,
 			height: `${size}px`,
 			border: '1px solid',
-			borderColor: 'limegreen',
+			borderColor: `${color}`,
 			borderRadius: '50%'
-		};
-
-		const fillStyle = {
-			position: 'absolute',
-			backgroundPosition: 'bottom',
-			bottom: '0',
-			left: '50%',
-			transform: 'translate(-50%, 0)',
-			width: '100%',
-			height: `${fillHeight}px`,
-			backgroundColor: color
-			// borderRadius: '50%'
 		};
 
 		const svgStyle = {
 			width: '100%',
 			height: '100%',
 			position: 'absolute',
-			/* margin: 0 auto; */
-			// top: '50%',
 			left: '50%',
 			transform: 'translate(-50%, 0)'
 		};
@@ -70,15 +57,14 @@ class Meter extends Component {
 		return (
 			<div className="container" style={{position: 'relative'}}>
 				<div className="circle" style={circleStyle}>
-					{/* <span className="innerFill" style={fillStyle} /> */}
 					<svg style={svgStyle}>
 						<defs>
 							<clipPath id="cut-off-bottom">
 								<rect
 									x="0"
-									y={halfSize}
+									y={inverseFillHeight}
 									width={size}
-									height={halfSize}
+									height={size}
 								/>
 							</clipPath>
 						</defs>
@@ -86,8 +72,8 @@ class Meter extends Component {
 							cx={halfSize}
 							cy={halfSize}
 							r={halfSize}
-							fill="red"
-							clip-path="url(#cut-off-bottom)"
+							fill={color}
+							clipPath="url(#cut-off-bottom)"
 						/>
 					</svg>
 					<div className="percentage" style={textStyle}>

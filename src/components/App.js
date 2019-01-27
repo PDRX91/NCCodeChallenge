@@ -8,9 +8,9 @@ class App extends Component {
 			<div className="App">
 				<h1 className="title">Progress Meter</h1>
 				<Meter
-					size={'300'}
-					color={'red'}
-					progress={50}
+					size={'150'}
+					color={'blue'}
+					progress={78}
 					completeMsg={'Loading is complete'}
 				/>
 			</div>
