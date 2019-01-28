@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 
 class Meter extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
+		//destructuring props
 		const {color, size, progress} = this.props;
-		const inverseFillHeight = (100 - progress) * 0.01 * size;
-		console.log('inverse fill height: ' + inverseFillHeight);
 
+		//measures the % of white space needed in the meter
+		const inverseFillHeight = (100 - progress) * 0.01 * size;
+
+		//styling for the circle element
 		const circleStyle = {
 			position: 'relative',
 			margin: '0 auto',
@@ -17,10 +16,11 @@ class Meter extends Component {
 			width: `${size}px`,
 			height: `${size}px`,
 			border: '1px solid',
-			borderColor: `${color}`,
+			borderColor: `${color}` || '#00ADD0', //fall back color in case the color is invalid
 			borderRadius: '50%'
 		};
 
+		//styling for the svg element
 		const svgStyle = {
 			width: '100%',
 			height: '100%',
@@ -29,6 +29,12 @@ class Meter extends Component {
 			transform: 'translate(-50%, 0)'
 		};
 
+		//styling for the svg fill
+		const fillStyle = {
+			fill: `${color}` || '#00ADD0' //fall back color in case the color is invalid
+		};
+
+		//styling for the completion message
 		const completeStyle = {
 			position: 'absolute',
 			top: '100%',
@@ -36,6 +42,7 @@ class Meter extends Component {
 			transform: 'translate(-50%, 0)'
 		};
 
+		//styling for the progress text
 		const textStyle = {
 			position: 'absolute',
 			top: '50%',
@@ -44,9 +51,12 @@ class Meter extends Component {
 		};
 
 		let complete = null;
+
+		//for keeping proper svg proportions
 		let halfSize = this.props.size / 2;
 
-		if (this.props.progress === 100) {
+		//if progress is 100%, show the completion message
+		if (this.props.progress == 100) {
 			complete = (
 				<p className="completeMessage" style={completeStyle}>
 					{this.props.completeMsg}
@@ -57,6 +67,7 @@ class Meter extends Component {
 		return (
 			<div className="container" style={{position: 'relative'}}>
 				<div className="circle" style={circleStyle}>
+					{/* an svg to fill the circle, intersected by a clip path to make it the appropriate height */}
 					<svg style={svgStyle}>
 						<defs>
 							<clipPath id="cut-off-bottom">
@@ -72,7 +83,7 @@ class Meter extends Component {
 							cx={halfSize}
 							cy={halfSize}
 							r={halfSize}
-							fill={color}
+							style={fillStyle}
 							clipPath="url(#cut-off-bottom)"
 						/>
 					</svg>
